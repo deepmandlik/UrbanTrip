@@ -22,25 +22,28 @@ const geolocateControlStyle = {
   bottom: 115,
 };
 
+const mapSize = {
+  width: "100vw",
+  height: "100vh",
+};
+
 export default function UrbanMap() {
   const mapRef = useRef();
   const [viewport, setViewport] = useState({
     latitude: 23.816189853778024,
     longitude: 86.4408162166436,
     zoom: 15,
-    width: "100%",
+    width: "100vw",
     height: "100vh",
   });
 
-  const handleViewportChange = useCallback(
-    (newViewport) => setViewport(newViewport),
-    []
-  );
+  const handleViewportChange = useCallback((newViewport) => {
+    setViewport({ ...newViewport, ...mapSize });
+  }, []);
 
   const handleGeocoderViewportChange = useCallback(
     (newViewport) => {
       const geocoderDefaultOverrides = { transitionDuration: 2000 };
-
       return handleViewportChange({
         ...newViewport,
         ...geocoderDefaultOverrides,
@@ -58,10 +61,6 @@ export default function UrbanMap() {
         mapboxApiAccessToken={MAPBOX_API_KEY}
         mapStyle={MAPBOX_STYLE_URL}
         attributionControl={false}
-        trackResize={true}
-        onResize={() => {
-          console.log("REsize");
-        }}
       >
         <Geocoder
           mapRef={mapRef}
