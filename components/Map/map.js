@@ -1,12 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import ReactMapGL, {
-  Marker,
-  Source,
-  Layer,
-  MapRef,
-  NavigationControl,
-  GeolocateControl,
-} from "react-map-gl";
+import React, { useState, useRef, useCallback } from "react";
+import ReactMapGL, { NavigationControl, GeolocateControl } from "react-map-gl";
 import { MAPBOX_API_KEY, MAPBOX_STYLE_URL } from "@constants/apikey";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -52,6 +45,10 @@ export default function UrbanMap() {
     [handleViewportChange]
   );
 
+  const getCoordinates = (event) => {
+    console.log(event);
+  }
+
   return (
     <div>
       <ReactMapGL
@@ -61,12 +58,13 @@ export default function UrbanMap() {
         mapboxApiAccessToken={MAPBOX_API_KEY}
         mapStyle={MAPBOX_STYLE_URL}
         attributionControl={false}
+        onClick={getCoordinates}
       >
         <Geocoder
           mapRef={mapRef}
           onViewportChange={handleGeocoderViewportChange}
           mapboxApiAccessToken={MAPBOX_API_KEY}
-          zoom={12}
+          zoom={10}
           clearAndBlurOnEsc={true}
           position="top-left"
         />
