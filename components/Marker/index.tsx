@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Marker, Popup } from "react-map-gl";
-import { Box, Typography, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import { pink } from "@mui/material/colors";
 import { MarkerObj } from "@interfaces/marker";
+import PopupCard from "@components/Popup";
 
 export default function Markers({ marker }: { marker: MarkerObj[] }) {
   const [popData, setPopData] = useState<MarkerObj | undefined>();
@@ -28,7 +29,9 @@ export default function Markers({ marker }: { marker: MarkerObj[] }) {
               }}
               onMouseLeave={(e) => {
                 e.preventDefault();
-                togglePopup(false);
+                setTimeout(() => {
+                  togglePopup(false);
+                }, 2000);
               }}
             >
               <RoomIcon sx={{ color: pink[500], fontSize: "35px" }}></RoomIcon>
@@ -43,16 +46,10 @@ export default function Markers({ marker }: { marker: MarkerObj[] }) {
           closeButton={false}
           anchor="bottom-right"
         >
-          <Box
-            style={{ width: "200px", padding: "7px" }}
-          >
-            <Typography sx={{ color: "#000" }}>
-              {popData?.place_name}
-            </Typography>
-            <Typography sx={{ color: "#0007" }}>
-              This place is {popData?.category} {popData?.address}
-            </Typography>
-          </Box>
+          <PopupCard
+            title={popData?.place_name as string}
+            info={`This place is ${popData?.category} ${popData?.address}`}
+          />
         </Popup>
       )}
     </>

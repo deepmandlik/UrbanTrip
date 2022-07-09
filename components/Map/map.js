@@ -1,8 +1,5 @@
-import React, { useState, useRef, useCallback } from "react";
-import ReactMapGL, {
-  NavigationControl,
-  GeolocateControl,
-} from "react-map-gl";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import ReactMapGL, { NavigationControl, GeolocateControl } from "react-map-gl";
 import { MAPBOX_API_KEY, MAPBOX_STYLE_URL } from "@constants/apikey";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -27,15 +24,27 @@ const mapSize = {
 
 export default function UrbanMap() {
   const mapRef = useRef();
+  const map = mapRef.current?.getMap();
   const geocodingClient = mapboxSdk({ accessToken: MAPBOX_API_KEY });
   const [marker, setMarker] = useState([]);
   const [viewport, setViewport] = useState({
     latitude: 23.816189853778024,
     longitude: 86.4408162166436,
-    zoom: 15,
+    zoom: 12,
     width: "100vw",
     height: "100vh",
   });
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setViewport({
+        ...viewport,
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      });
+    });
+    // eslint-disable-next-line
+  }, []);
 
   const handleViewportChange = useCallback((newViewport) => {
     setViewport({ ...newViewport, ...mapSize });
@@ -67,7 +76,6 @@ export default function UrbanMap() {
           response.body.features.length
         ) {
           const feature = response.body.features[0];
-          console.log(feature);
           setMarker((arr) => [
             ...arr,
             {
