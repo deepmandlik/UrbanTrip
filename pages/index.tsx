@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { makeStyles } from "@config/makeStyles";
 import UrbanMap from "@components/Map/map";
+import Header from "@components/Header"
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <Header />
         <UrbanMap />
       </div>
     </div>
