@@ -15,25 +15,40 @@ const useStyles = makeStyles()((theme) => ({
     width: "400px",
     position: "absolute",
     top: 10,
-    left: 300,
+    left: 320,
     zIndex: 6,
     [theme.breakpoints.down("md")]: {
       top: 70,
       left: 0.1,
       width: "100%",
-      zIndex : 1
+      zIndex: 1,
     },
   },
 }));
 
- 
-export default function Header() {
+export default function Header({
+  toggleDrawer,
+}: {
+  toggleDrawer: (type: string) => () => void;
+}) {
   const { classes } = useStyles();
   return (
     <Box className={classes.root}>
-      <HeaderButton name="hotels" icon={ <HotelIcon />} />
-      <HeaderButton name="restaurants" icon={<RestaurantIcon />} />
-      <HeaderButton name="attractions" icon={<AttractionsIcon />} />
+      <HeaderButton
+        name="hotels"
+        icon={<HotelIcon />}
+        toggleDrawer={toggleDrawer}
+      />
+      <HeaderButton
+        name="restaurants"
+        icon={<RestaurantIcon />}
+        toggleDrawer={toggleDrawer}
+      />
+      <HeaderButton
+        name="attractions"
+        icon={<AttractionsIcon />}
+        toggleDrawer={toggleDrawer}
+      />
     </Box>
   );
 }

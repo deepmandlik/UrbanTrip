@@ -21,7 +21,7 @@ const geolocateControlStyle = {
 const mapStyle = {
   width: "100vw",
   height: "100vh",
-  transitionDuration: 2000,
+  transitionDuration: 1500,
 };
 
 export default function UrbanMap() {
@@ -94,7 +94,6 @@ export default function UrbanMap() {
         mapStyle={MAPBOX_STYLE_URL}
         attributionControl={false}
         onDblClick={getCoordinates}
-        doubleClickZoom={false}
         ref={mapRef}
         {...viewport}
       >
@@ -125,7 +124,7 @@ export default function UrbanMap() {
           top: 10,
           left: 10,
           zIndex: 4,
-          width: screen ? "60%" : "95%",
+          width: screen ? "65%" : "95%",
         }}
       />
     </div>

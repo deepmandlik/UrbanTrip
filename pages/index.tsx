@@ -1,10 +1,8 @@
-import { Typography, Box } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { makeStyles } from "@config/makeStyles";
 import UrbanMap from "@components/Map/map";
-import Header from "@components/Header"
+import Drawer from "@components/Drawer";
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -33,7 +31,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Header />
+        <Drawer />
         <UrbanMap />
       </div>
     </div>

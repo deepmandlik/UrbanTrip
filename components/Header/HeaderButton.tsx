@@ -1,15 +1,15 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function HeaderButton({
   name,
   icon,
+  toggleDrawer,
 }: {
   name: string;
   icon: any;
+  toggleDrawer: (type: string) => () => void;
 }) {
   const matches = useMediaQuery("(min-width:360px)");
   return (
@@ -26,6 +26,7 @@ export default function HeaderButton({
           color: "#FFF",
         },
       }}
+      onClick={toggleDrawer(name)}
     >
       {name}
     </Button>
