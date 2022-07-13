@@ -1,36 +1,68 @@
-import * as React from 'react';
-import Image from 'next/image';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
+import * as React from "react";
+import Image from "next/image";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
+import Typography from "@mui/material/Typography";
+import AssistantDirectionRoundedIcon from '@mui/icons-material/AssistantDirectionRounded';
 
-
-export default function ItemList() {
-    const matches = useMediaQuery("(min-width:600px)");
+export default function ItemList({ itemData }: { itemData: any }) {
+  const screen1 = useMediaQuery("(min-width:900px)");
+  const screen2 = useMediaQuery("(min-width:500px)");
   return (
-    <ImageList cols={matches ? 4 : 2} sx={{ width: '100%', height: 450 ,overflow : 'visible' }}>
-
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
+    <ImageList
+      cols={screen1 ? 4 : !screen2 ? 1 : 2}
+      sx={{ width: "100%", overflow: "visible" }}
+    >
+      {itemData.map((item : any) => (
+        <ImageListItem key={item?.listing_key}>
           <Image
-            src={`${item.img}?w=248&fit=crop&auto=format`}
+            src={item?.photo?.images?.large?.url ?? "https://maps.gstatic.com/tactile/reveal/no_street_view_2x_080615.png"}
             width={250}
             height={220}
-            alt={item.title}
+            alt={item?.name}
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.title}
-            subtitle={item.author}
+            title={item?.name}
+            subtitle={
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                {!item?.is_closed ? (
+                  <Typography color="#4CAF50">Open </Typography>
+                ) : (
+                  <Typography color="#F44336">Closed </Typography>
+                )}
+                <Typography> · {item?.rating ?? 0}</Typography>
+                <Rating
+                  value={Number(item?.rating ?? 0)}
+                  precision={0.1}
+                  readOnly
+                  size="small"
+                  emptyIcon={
+                    <StarIcon
+                      style={{ opacity: 0.55, color: "#FFF" }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+                <Typography>{`(${item?.num_reviews ?? 0})`}</Typography>
+              </Box>
+            }
             actionIcon={
               <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${item.title}`}
+                sx={{ color: "rgba(255, 255, 255, 0.74)" }}
               >
-                <InfoIcon />
+                <AssistantDirectionRoundedIcon style={{fontSize : 30}} />
               </IconButton>
             }
           />
@@ -39,77 +71,3 @@ export default function ItemList() {
     </ImageList>
   );
 }
-
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-    author: '@bkristastucchio',
-    // rows: 2,
-    // cols: 2,
-    featured: true,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-    author: '@rollelflex_graphy726',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    author: '@helloimnik',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    author: '@nolanissac',
-    // cols: 2,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    author: '@hjrc33',
-    // cols: 2,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-    author: '@arwinneil',
-    // rows: 2,
-    // cols: 2,
-    featured: true,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-    author: '@tjdragotta',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-    author: '@katie_wasserman',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-    author: '@silverdalex',
-    // rows: 2,
-    // cols: 2,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-    author: '@shelleypauls',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-    author: '@peterlaster',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-    author: '@southside_customs',
-    // cols: 2,
-  },
-];

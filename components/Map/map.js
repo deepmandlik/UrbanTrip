@@ -2,11 +2,12 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import ReactMapGL, { NavigationControl, GeolocateControl } from "react-map-gl";
 import { MAPBOX_API_KEY, MAPBOX_STYLE_URL } from "@constants/apikey";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import "mapbox-gl/dist/mapbox-gl.css";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import Geocoder from "react-map-gl-geocoder";
 import mapboxSdk from "@mapbox/mapbox-sdk/services/geocoding";
 import Markers from "@components/Marker";
+import Drawer from "@components/Drawer";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const navControlStyle = {
   right: 20,
@@ -88,6 +89,7 @@ export default function UrbanMap() {
 
   return (
     <div>
+      <Drawer map={map}/>
       <ReactMapGL
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken={MAPBOX_API_KEY}

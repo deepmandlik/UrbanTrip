@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,10 +9,12 @@ import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Header from "@components/Header";
 import ItemList from "@components/List";
+import { getFetchData } from "@pages/api";
 
 const drawerBleeding = 56;
 
 interface Props {
+  map: any;
   window?: () => Window;
 }
 
@@ -39,12 +41,16 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function Drawer(props: Props) {
-  const { window } = props;
-  const [open, setOpen] = React.useState(false);
+  const { window, map } = props;
+  const [open, setOpen] = useState<boolean>(false);
+  const [itemData, setItemData] = useState<any>(null);
 
-  const toggleDrawer = (type: string) => () => {
+  const toggleDrawer = (type: string) => async () => {
     setOpen(true);
-    console.log(type);
+    setItemData(null);
+    const bounds = map.getBounds();
+    const response = await getFetchData(type, bounds?._sw, bounds?._ne);
+    setItemData(response.filter((item : any) => (item?.ad_position == undefined)));
   };
 
   // This is used only for the example
@@ -88,19 +94,21 @@ export default function Drawer(props: Props) {
         >
           <Puller />
           <Typography sx={{ p: 2, color: "text.secondary" }}>
-            51 results
+            {itemData?.length ?? 0} results
           </Typography>
         </StyledBox>
         <StyledBox
           sx={{
-             px: 2,
-            //  pb: 1,
+            px: 2,
             height: "100%",
             overflow: "auto",
           }}
         >
-          <ItemList />
-          {/* <Skeleton variant="rectangular" height="100%" /> */}
+          {itemData ? (
+            <ItemList itemData={itemData} />
+          ) : (
+            <Skeleton variant="rectangular" height="100%" />
+          )}
         </StyledBox>
       </SwipeableDrawer>
     </Root>
