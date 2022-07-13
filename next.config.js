@@ -7,6 +7,9 @@ const nextConfig = {
     X_RAPIDAPI_KEY: process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
     X_RAPIDAPI_HOST: process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
   },
+  images: {
+    domains: ['media-cdn.tripadvisor.com' ,'maps.gstatic.com'],
+  },
 };
 
 module.exports = nextConfig;
