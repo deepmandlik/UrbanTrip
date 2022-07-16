@@ -8,9 +8,11 @@ import { CardActionArea } from "@mui/material";
 export default function PopupCard({
   title,
   info,
+  photo,
 }: {
   title: string;
   info: string;
+  photo: string;
 }) {
   return (
     <Card sx={{ maxWidth: 250, boxShadow: "none" }}>
@@ -18,7 +20,10 @@ export default function PopupCard({
         <CardMedia
           component="img"
           height="125"
-          image="https://maps.gstatic.com/tactile/reveal/no_street_view_2x_080615.png"
+          image={
+            photo ??
+            "https://maps.gstatic.com/tactile/reveal/no_street_view_2x_080615.png"
+          }
           alt="green iguana"
         />
         <CardContent sx={{ padding: 1 }}>

@@ -14,7 +14,10 @@ import { getFetchData } from "@pages/api";
 const drawerBleeding = 56;
 
 interface Props {
+  open: boolean;
+  setOpen: (open: boolean) => void;
   map: any;
+  getDirection: (item: any) => () => void;
   window?: () => Window;
 }
 
@@ -41,8 +44,7 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function Drawer(props: Props) {
-  const { window, map } = props;
-  const [open, setOpen] = useState<boolean>(false);
+  const { open, setOpen, window, map, getDirection } = props;
   const [itemData, setItemData] = useState<any>(null);
 
   const toggleDrawer = (type: string) => async () => {
@@ -50,7 +52,7 @@ export default function Drawer(props: Props) {
     setItemData(null);
     const bounds = map.getBounds();
     const response = await getFetchData(type, bounds?._sw, bounds?._ne);
-    setItemData(response.filter((item : any) => (item?.ad_position == undefined)));
+    setItemData(response.filter((item: any) => item?.ad_position == undefined));
   };
 
   // This is used only for the example
@@ -105,7 +107,7 @@ export default function Drawer(props: Props) {
           }}
         >
           {itemData ? (
-            <ItemList itemData={itemData} />
+            <ItemList key={itemData[0].latitude} itemData={itemData} getDirection={getDirection} />
           ) : (
             <Skeleton variant="rectangular" height="100%" />
           )}
