@@ -9,9 +9,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
-import AssistantDirectionRoundedIcon from '@mui/icons-material/AssistantDirectionRounded';
+import AssistantDirectionRoundedIcon from "@mui/icons-material/AssistantDirectionRounded";
 
-export default function ItemList({ itemData }: { itemData: any }) {
+export default function ItemList({
+  itemData,
+  getDirection,
+}: {
+  itemData: any;
+  getDirection: (item : any) => () => void;
+}) {
   const screen1 = useMediaQuery("(min-width:900px)");
   const screen2 = useMediaQuery("(min-width:500px)");
   return (
@@ -19,10 +25,13 @@ export default function ItemList({ itemData }: { itemData: any }) {
       cols={screen1 ? 4 : !screen2 ? 1 : 2}
       sx={{ width: "100%", overflow: "visible" }}
     >
-      {itemData.map((item : any) => (
+      {itemData.map((item: any) => (
         <ImageListItem key={item?.listing_key}>
           <Image
-            src={item?.photo?.images?.large?.url ?? "https://maps.gstatic.com/tactile/reveal/no_street_view_2x_080615.png"}
+            src={
+              item?.photo?.images?.large?.url ??
+              "https://maps.gstatic.com/tactile/reveal/no_street_view_2x_080615.png"
+            }
             width={250}
             height={220}
             alt={item?.name}
@@ -59,10 +68,8 @@ export default function ItemList({ itemData }: { itemData: any }) {
               </Box>
             }
             actionIcon={
-              <IconButton
-                sx={{ color: "rgba(255, 255, 255, 0.74)" }}
-              >
-                <AssistantDirectionRoundedIcon style={{fontSize : 30}} />
+              <IconButton sx={{ color: "rgba(255, 255, 255, 0.74)" }} onClick={getDirection(item)}>
+                <AssistantDirectionRoundedIcon style={{ fontSize: 30 }} />
               </IconButton>
             }
           />

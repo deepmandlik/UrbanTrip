@@ -4,5 +4,5 @@ export interface MarkerObj {
   place_name: string;
   address: string;
   category: string;
-  bookmark: boolean;
+  photo: string;
 }
