@@ -33,7 +33,7 @@ export default function Markers({
             e.preventDefault();
             setTimeout(() => {
               togglePopup(false);
-            }, 2000);
+            }, 3000);
           }}
         >
           <RoomIcon sx={{ color: color, fontSize: "35px" }}></RoomIcon>
