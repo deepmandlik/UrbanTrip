@@ -106,8 +106,8 @@ export default function Drawer(props: Props) {
             overflow: "auto",
           }}
         >
-          {itemData ? (
-            <ItemList key={itemData[0].latitude} itemData={itemData} getDirection={getDirection} />
+          {itemData  ? (
+            <ItemList key={itemData[0]?.latitude} itemData={itemData} getDirection={getDirection} />
           ) : (
             <Skeleton variant="rectangular" height="100%" />
           )}
